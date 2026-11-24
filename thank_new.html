@@ -1,0 +1,462 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>С Новым Годом, Виталина! 🎄</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Marck+Script&family=Montserrat:wght@300;400&display=swap');
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    min-height: 100vh;
+    background: radial-gradient(ellipse at top, #1a1a3e 0%, #0a0a1a 60%, #050510 100%);
+    font-family: 'Montserrat', sans-serif;
+    color: #fff;
+    overflow-x: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px 80px;
+  }
+
+  /* ===== СНЕГ ===== */
+  .snowflake {
+    position: fixed;
+    top: -10px;
+    color: #fff;
+    font-size: 1em;
+    opacity: 0.8;
+    pointer-events: none;
+    animation: fall linear infinite;
+    z-index: 1;
+  }
+  @keyframes fall {
+    0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+    10% { opacity: 0.9; }
+    100% { transform: translateY(110vh) translateX(40px) rotate(360deg); opacity: 0.2; }
+  }
+
+  /* ===== ЗВЁЗДЫ ===== */
+  .star {
+    position: fixed;
+    background: #fff;
+    border-radius: 50%;
+    pointer-events: none;
+    animation: twinkle 3s infinite ease-in-out;
+    z-index: 0;
+  }
+  @keyframes twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.5); }
+  }
+
+  /* ===== ЁЛОЧКА ===== */
+  .tree {
+    font-size: 70px;
+    animation: treeGlow 2.5s infinite ease-in-out;
+    margin-bottom: 10px;
+    filter: drop-shadow(0 0 15px rgba(100, 255, 150, 0.6));
+  }
+  @keyframes treeGlow {
+    0%, 100% { filter: drop-shadow(0 0 10px rgba(100, 255, 150, 0.4)); transform: scale(1); }
+    50% { filter: drop-shadow(0 0 30px rgba(255, 215, 0, 0.8)); transform: scale(1.05); }
+  }
+
+  h1 {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(2.2em, 7vw, 4.5em);
+    text-align: center;
+    background: linear-gradient(90deg, #ffd700, #fff, #ff6b9d, #ffd700);
+    background-size: 300% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: shimmer 4s linear infinite;
+    margin-bottom: 15px;
+    line-height: 1.3;
+  }
+  @keyframes shimmer {
+    to { background-position: 300% center; }
+  }
+
+  /* ===== ПОЯВЛЯЮЩИЙСЯ ТЕКСТ ===== */
+  .message {
+    max-width: 720px;
+    text-align: center;
+    font-size: clamp(1em, 2.6vw, 1.25em);
+    line-height: 1.9;
+    font-weight: 300;
+    color: #e8e8f0;
+    letter-spacing: 0.3px;
+  }
+  .message span {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(25px) scale(0.95);
+    filter: blur(6px);
+    transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .message span.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+
+  .heart {
+    color: #ff4d6d;
+    animation: beat 1.2s infinite;
+    display: inline-block;
+  }
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.25); }
+  }
+
+  /* ===== РАЗДЕЛИТЕЛЬ ===== */
+  .divider {
+    width: 0;
+    height: 2px;
+    margin: 55px auto 45px;
+    background: linear-gradient(90deg, transparent, #ffd700, #ff6b9d, #ffd700, transparent);
+    border-radius: 2px;
+    transition: width 1.8s ease;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.6);
+  }
+  .divider.show { width: min(85%, 600px); }
+
+  /* ===== БЛОК ВЫБОРА ===== */
+  .planner {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: all 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    max-width: 760px;
+    width: 100%;
+    text-align: center;
+  }
+  .planner.show { opacity: 1; transform: translateY(0); }
+
+  .planner h2 {
+    font-family: 'Marck Script', cursive;
+    font-size: clamp(1.6em, 5vw, 2.6em);
+    color: #ffd700;
+    margin-bottom: 8px;
+    text-shadow: 0 0 25px rgba(255, 215, 0, 0.5);
+  }
+  .planner p.sub {
+    color: #b8b8d0;
+    font-weight: 300;
+    margin-bottom: 30px;
+    font-size: 0.95em;
+  }
+
+  .selects {
+    display: flex;
+    gap: 14px;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+  }
+
+  .select-wrap {
+    position: relative;
+    flex: 1 1 180px;
+    max-width: 230px;
+  }
+
+  select {
+    width: 100%;
+    padding: 16px 40px 16px 20px;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1em;
+    color: #fff;
+    background: rgba(255, 255, 255, 0.07);
+    border: 1.5px solid rgba(255, 215, 0, 0.35);
+    border-radius: 14px;
+    outline: none;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+  }
+  select:hover, select:focus {
+    border-color: #ffd700;
+    background: rgba(255, 215, 0, 0.12);
+    box-shadow: 0 0 25px rgba(255, 215, 0, 0.3);
+  }
+  select option {
+    background: #14142e;
+    color: #fff;
+    padding: 10px;
+  }
+  .select-wrap::after {
+    content: '▾';
+    position: absolute;
+    right: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #ffd700;
+    pointer-events: none;
+    font-size: 1.1em;
+  }
+
+  .result {
+    min-height: 60px;
+    font-size: clamp(1.05em, 3vw, 1.35em);
+    line-height: 1.7;
+    color: #fff;
+    opacity: 0;
+    transform: scale(0.9);
+    transition: all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+    margin-bottom: 25px;
+  }
+  .result.show { opacity: 1; transform: scale(1); }
+  .result .highlight {
+    color: #ffd700;
+    font-weight: 400;
+    text-shadow: 0 0 15px rgba(255, 215, 0, 0.5);
+  }
+
+  /* ===== КНОПКА СКРИНШОТА ===== */
+  .screenshot-hint {
+    display: inline-block;
+    padding: 16px 34px;
+    border-radius: 50px;
+    font-size: 1em;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+    color: #0a0a1a;
+    background: linear-gradient(135deg, #ffd700, #ffb347, #ff6b9d);
+    background-size: 200% 200%;
+    box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 8px 25px rgba(0,0,0,0.4);
+    animation: pulseBtn 2.5s infinite ease-in-out, gradientMove 4s linear infinite;
+    border: none;
+    cursor: default;
+    user-select: none;
+  }
+  @keyframes pulseBtn {
+    0%, 100% { transform: scale(1); box-shadow: 0 0 30px rgba(255, 215, 0, 0.4), 0 8px 25px rgba(0,0,0,0.4); }
+    50% { transform: scale(1.06); box-shadow: 0 0 50px rgba(255, 215, 0, 0.7), 0 8px 25px rgba(0,0,0,0.4); }
+  }
+  @keyframes gradientMove {
+    0% { background-position: 0% 50%; }
+    100% { background-position: 200% 50%; }
+  }
+
+  /* ===== ГИРЛЯНДА СВЕРХУ ===== */
+  .garland {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: linear-gradient(90deg, #ff004c, #ffd700, #00ff88, #00aaff, #ff00aa, #ff004c);
+    background-size: 200% 100%;
+    animation: garlandMove 3s linear infinite;
+    z-index: 100;
+    box-shadow: 0 0 20px rgba(255, 100, 150, 0.8);
+  }
+  @keyframes garlandMove {
+    to { background-position: 200% 0; }
+  }
+</style>
+</head>
+<body>
+
+<div class="garland"></div>
+
+<div class="tree">🎄</div>
+
+<h1>С Новым Годом,<br>Виталина!</h1>
+
+<div class="message" id="message"></div>
+
+<div class="divider" id="divider"></div>
+
+<div class="planner" id="planner">
+  <h2>Пойдём гулять? ❄️</h2>
+  <p class="sub">Выбери месяц, день и время — и никуда не денется 😌</p>
+
+  <div class="selects">
+    <div class="select-wrap">
+      <select id="month">
+        <option value="">Месяц</option>
+        <option>Январь</option>
+        <option>Февраль</option>
+        <option>Март</option>
+        <option>Апрель</option>
+        <option>Май</option>
+        <option>Июнь</option>
+        <option>Июль</option>
+        <option>Август</option>
+        <option>Сентябрь</option>
+        <option>Октябрь</option>
+        <option>Ноябрь</option>
+        <option>Декабрь</option>
+      </select>
+    </div>
+
+    <div class="select-wrap">
+      <select id="day">
+        <option value="">День</option>
+      </select>
+    </div>
+
+    <div class="select-wrap">
+      <select id="time">
+        <option value="">Время</option>
+        <option>10:00</option>
+        <option>11:00</option>
+        <option>12:00</option>
+        <option>13:00</option>
+        <option>14:00</option>
+        <option>15:00</option>
+        <option>16:00</option>
+        <option>17:00</option>
+        <option>18:00</option>
+        <option>19:00</option>
+        <option>20:00</option>
+        <option>21:00</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="result" id="result"></div>
+
+  <div class="screenshot-hint">📸 Сфотографируй и отправь мне</div>
+</div>
+
+<script>
+/* ================= ТЕКСТ ДЛЯ ПОЯВЛЕНИЯ ================= */
+const phrases = [
+  "Виталина,",
+  "хочу сказать тебе спасибо",
+  "за то, что ты появилась в этом году.",
+  "Я впервые в жизни",
+  "действительно почувствовал себя нужным",
+  "и любимым.",
+  "И хочу, чтобы ты осталась со мной навсегда.",
+  "Да, знаю, мы сейчас дети и всё такое,",
+  "но это правда.",
+  "Я просто рад, что ты появилась в моей жизни.",
+  "Спасибо тебе. Люблю тебя ❤️"
+];
+
+const messageEl = document.getElementById('message');
+
+phrases.forEach((text, i) => {
+  const span = document.createElement('span');
+  span.textContent = text;
+  messageEl.appendChild(span);
+  if (i < phrases.length - 1) {
+    messageEl.appendChild(document.createTextNode(' '));
+  }
+});
+
+/* ================= ПОЯВЛЕНИЕ ТЕКСТА ================= */
+const spans = messageEl.querySelectorAll('span');
+let current = 0;
+
+function revealNext() {
+  if (current < spans.length) {
+    spans[current].classList.add('visible');
+    current++;
+    setTimeout(revealNext, 850 + Math.random() * 500);
+  } else {
+    // после текста — разделитель и блок выбора
+    setTimeout(() => {
+      document.getElementById('divider').classList.add('show');
+    }, 600);
+    setTimeout(() => {
+      document.getElementById('planner').classList.add('show');
+    }, 1800);
+  }
+}
+
+// стартуем после небольшой паузы
+setTimeout(revealNext, 900);
+
+/* ================= ДНИ В МЕСЯЦЕ ================= */
+const monthSelect = document.getElementById('month');
+const daySelect = document.getElementById('day');
+const timeSelect = document.getElementById('time');
+const resultEl = document.getElementById('result');
+
+const daysInMonth = {
+  'Январь': 31, 'Февраль': 29, 'Март': 31, 'Апрель': 30,
+  'Май': 31, 'Июнь': 30, 'Июль': 31, 'Август': 31,
+  'Сентябрь': 30, 'Октябрь': 31, 'Ноябрь': 30, 'Декабрь': 31
+};
+
+function updateDays() {
+  const m = monthSelect.value;
+  daySelect.innerHTML = '<option value="">День</option>';
+  if (m && daysInMonth[m]) {
+    for (let d = 1; d <= daysInMonth[m]; d++) {
+      const opt = document.createElement('option');
+      opt.value = d;
+      opt.textContent = d;
+      daySelect.appendChild(opt);
+    }
+  }
+  updateResult();
+}
+
+function updateResult() {
+  const m = monthSelect.value;
+  const d = daySelect.value;
+  const t = timeSelect.value;
+
+  if (m && d && t) {
+    resultEl.innerHTML = `Мы гуляем <span class="highlight">${d} ${m.toLowerCase()}</span> в <span class="highlight">${t}</span> ✨`;
+    resultEl.classList.add('show');
+  } else {
+    resultEl.classList.remove('show');
+    resultEl.innerHTML = '';
+  }
+}
+
+monthSelect.addEventListener('change', updateDays);
+daySelect.addEventListener('change', updateResult);
+timeSelect.addEventListener('change', updateResult);
+
+/* ================= ЗВЁЗДЫ ================= */
+for (let i = 0; i < 90; i++) {
+  const star = document.createElement('div');
+  star.className = 'star';
+  const size = Math.random() * 2.2 + 0.6;
+  star.style.width = size + 'px';
+  star.style.height = size + 'px';
+  star.style.left = Math.random() * 100 + 'vw';
+  star.style.top = Math.random() * 100 + 'vh';
+  star.style.animationDelay = Math.random() * 3 + 's';
+  star.style.animationDuration = (Math.random() * 2 + 2) + 's';
+  document.body.appendChild(star);
+}
+
+/* ================= СНЕГ ================= */
+const snowChars = ['❄', '❅', '❆', '•', '❄'];
+for (let i = 0; i < 60; i++) {
+  const flake = document.createElement('div');
+  flake.className = 'snowflake';
+  flake.textContent = snowChars[Math.floor(Math.random() * snowChars.length)];
+  flake.style.left = Math.random() * 100 + 'vw';
+  flake.style.fontSize = (Math.random() * 16 + 8) + 'px';
+  flake.style.animationDuration = (Math.random() * 8 + 6) + 's';
+  flake.style.animationDelay = (Math.random() * 8) + 's';
+  flake.style.opacity = Math.random() * 0.6 + 0.3;
+  document.body.appendChild(flake);
+}
+
+/* ================= ЗИМНЯЯ ПАЛИТРА СНЕЖИНОК ================= */
+document.querySelectorAll('.snowflake').forEach(f => {
+  const colors = ['#ffffff', '#d6e4ff', '#fff0b3', '#c1d3ff'];
+  f.style.color = colors[Math.floor(Math.random() * colors.length)];
+});
+</script>
+
+</body>
+</html>
